@@ -18,7 +18,7 @@ Estado actual de la arquitectura:
 - La migracion base a ESM ya inicio y la app ahora usa `type="module"` en `index.html`.
 - Los modulos principales ya dejaron de depender de `window.*`.
 - Ya existe carga concurrente resiliente con `Promise.allSettled`.
-- Aun no existe un cache asincrono encapsulado mediante clausuras.
+- Ya existe un cache asincrono encapsulado mediante clausuras.
 
 ## Cambios que se realizaran
 
@@ -72,13 +72,16 @@ Comportamiento esperado:
 
 ### 4. Cache asincrono encapsulado con clausuras
 
-Se agregara una funcion constructora que retorne un objeto con un metodo para filtrar peliculas por genero.
+Estado: Implementado.
 
-Ese modulo:
+Ya realizado:
 
-- mantendra un objeto privado en memoria como cache
-- evitara repetir la promesa simulada cuando se consulta dos veces el mismo genero
-- demostrara el uso de clausuras sin variables globales
+- Se agrego `js/cache/filterCache.js`.
+- El modulo expone una funcion constructora que retorna un objeto con el metodo `filterByGenre`.
+- El cache interno queda encapsulado en una clausura privada.
+- La primera vez que se filtra un genero se simula una promesa asincrona.
+- La segunda vez que se consulta el mismo genero se reutiliza el cache privado sin repetir la espera.
+- Se dejan trazas en consola con `cache hit` y `cache miss` para la demostracion.
 
 ### 5. Ajustes esperados por archivo
 
@@ -110,11 +113,12 @@ Cambios ya aplicados:
 - Se agrego una capa de servicios simulados para catalogo, resenas y anuncios.
 - Se integro `Promise.allSettled` para cargar los tres servicios en paralelo.
 - Se agregaron alertas visuales y paneles de promociones/resenas para evidenciar resiliencia.
+- Se conecto el filtro por genero a un cache asincrono encapsulado con clausuras.
 
 Siguiente bloque recomendado:
 
-- crear `js/cache/filterCache.js`
-- conectar el filtro por genero al cache asincrono con clausuras
+- validar visualmente el flujo completo en navegador
+- probar `cache hit` y `cache miss` desde consola
 - preparar la demostracion del fallo forzado en DevTools
 
 ## Objetivo final

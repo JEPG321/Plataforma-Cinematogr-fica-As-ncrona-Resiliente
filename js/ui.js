@@ -124,6 +124,11 @@ export function bindFavoritesToggle(onToggle) {
 }
 
 export function updateResultsText(count, onlyFavorites, texts) {
+  if (typeof count === "string") {
+    resultsText.textContent = count;
+    return;
+  }
+
   const itemText = onlyFavorites ? texts.favoriteWord(count) : texts.movieWord(count);
   resultsText.textContent = `${texts.showing} ${count} ${itemText}`;
 }

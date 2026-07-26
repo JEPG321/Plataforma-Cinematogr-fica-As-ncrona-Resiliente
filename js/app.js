@@ -1,4 +1,5 @@
 import { getFavorites, toggleFavorite } from "./favorites.js";
+import { createMovieFilterCache } from "./cache/filterCache.js";
 import { loadHomeData } from "./utils/loadHomeData.js";
 import {
   bindFavoritesToggle,
@@ -37,6 +38,7 @@ const i18n = {
     noResultsTitle: "No hay resultados aun",
     noResultsCopy: "Prueba otro genero, cambia de idioma o marca una pelicula con la estrella para verla en favoritas.",
     showing: "Mostrando",
+    filtering: "Filtrando...",
     movieWord: (count) => `pelicula${count === 1 ? "" : "s"}`,
     favoriteWord: (count) => `favorita${count === 1 ? "" : "s"}`,
     loadErrorTag: "Error",
@@ -80,6 +82,7 @@ const i18n = {
     noResultsTitle: "No matches yet",
     noResultsCopy: "Try another genre, switch languages, or mark a movie with the star to see it in favorites.",
     showing: "Showing",
+    filtering: "Filtering...",
     movieWord: (count) => `movie${count === 1 ? "" : "s"}`,
     favoriteWord: (count) => `favorite${count === 1 ? "" : "s"}`,
     loadErrorTag: "Error",
@@ -106,6 +109,7 @@ const i18n = {
 };
 
 let allMovies = [];
+let genreFilteredMovies = [];
 let reviews = [];
 let promotion = null;
 let currentLang = "es";
@@ -113,6 +117,9 @@ let showOnlyFavorites = false;
 let activeGenreKey = "all";
 let searchTerm = "";
 let secondaryAlertKeys = [];
+let isFilteringGenre = false;
+
+const movieFilterCache = createMovieFilterCache();
 
 function getTexts() {
   return i18n[currentLang];
@@ -129,7 +136,7 @@ function getVisibleMovies() {
   const texts = getTexts();
   const normalizedSearch = searchTerm.trim().toLowerCase();
 
-  return allMovies.filter((movie) => {
+  return genreFilteredMovies.filter((movie) => {
     const localizedTitle = movie.title[currentLang].toLowerCase();
     const localizedGenre = texts.genres[movie.genreKey].toLowerCase();
     const localizedDescription = movie.description[currentLang].toLowerCase();
@@ -152,6 +159,16 @@ function getAlertMessages(texts) {
 
 function handleFavoriteClick(movieId) {
   toggleFavorite(movieId);
+  render();
+}
+
+async function handleGenreChange(genreKey) {
+  activeGenreKey = genreKey;
+  isFilteringGenre = true;
+  render();
+
+  genreFilteredMovies = await movieFilterCache.filterByGenre(allMovies, genreKey);
+  isFilteringGenre = false;
   render();
 }
 
@@ -195,10 +212,7 @@ function render() {
     currentLang = lang;
     render();
   });
-  renderGenreFilters(getGenreOptions(), activeGenreKey, (genreKey) => {
-    activeGenreKey = genreKey;
-    render();
-  });
+  renderGenreFilters(getGenreOptions(), activeGenreKey, handleGenreChange);
   renderMovies(
     visibleMovies,
     favorites,
@@ -207,7 +221,16 @@ function render() {
     (movie) => openModal(movie, currentLang, texts),
     handleFavoriteClick
   );
-  updateResultsText(visibleMovies.length, showOnlyFavorites, texts);
+  if (isFilteringGenre) {
+    updateResultsText(texts.filtering, false, {
+      ...texts,
+      movieWord: () => "",
+      favoriteWord: () => "",
+      showing: ""
+    });
+  } else {
+    updateResultsText(visibleMovies.length, showOnlyFavorites, texts);
+  }
   updateFavoritesCount(favorites.length);
   updateFavoritesToggle(showOnlyFavorites);
 }
@@ -229,6 +252,7 @@ async function startApp() {
   try {
     const homeData = await loadHomeData();
     allMovies = homeData.movies;
+    genreFilteredMovies = [...homeData.movies];
     reviews = homeData.reviews;
     promotion = homeData.promotion;
     secondaryAlertKeys = [];
@@ -245,6 +269,7 @@ async function startApp() {
   } catch (error) {
     console.error("Main catalog load failed:", error);
     allMovies = [];
+    genreFilteredMovies = [];
     reviews = [];
     promotion = null;
     secondaryAlertKeys = [];
