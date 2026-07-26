@@ -15,10 +15,13 @@ const sectionKicker = document.getElementById("section-kicker");
 const sectionTitle = document.getElementById("section-title");
 const footerText = document.getElementById("footer-text");
 const promotionsPanel = document.getElementById("promotions-panel");
+const promotionKicker = document.getElementById("promotion-kicker");
 const promoTitle = document.getElementById("promo-title");
 const promoCopy = document.getElementById("promo-copy");
 const promoBadge = document.getElementById("promo-badge");
 const reviewsPanel = document.getElementById("reviews-panel");
+const reviewsKicker = document.getElementById("reviews-kicker");
+const reviewsTitle = document.getElementById("reviews-title");
 const reviewsList = document.getElementById("reviews-list");
 const modalCover = document.getElementById("modal-cover");
 const modalImage = document.getElementById("modal-image");
@@ -189,7 +192,7 @@ export function renderReviews(reviews, moviesById, lang) {
     card.className = "review-card";
     card.innerHTML = `
       <p class="review-rating">${"★".repeat(review.rating)}</p>
-      <p class="review-movie">${movie ? movie.title[lang] : "Catalogo"}</p>
+      <p class="review-movie">${movie ? movie.title[lang] : lang === "es" ? "Catalogo" : "Catalog"}</p>
       <p class="review-author">${review.author}</p>
       <p class="review-comment">${review.comment[lang]}</p>
     `;
@@ -212,6 +215,9 @@ export function updateStaticText(lang, texts) {
   searchInput.setAttribute("aria-label", texts.searchPlaceholder);
   sectionKicker.textContent = texts.sectionKicker;
   sectionTitle.textContent = texts.sectionTitle;
+  promotionKicker.textContent = texts.promotionKicker;
+  reviewsKicker.textContent = texts.reviewsKicker;
+  reviewsTitle.textContent = texts.reviewsTitle;
   grid.setAttribute("aria-label", texts.gridAria);
   footerText.textContent = texts.footerText;
   closeModalBtn.setAttribute("aria-label", texts.closeModal);
@@ -238,6 +244,7 @@ modalCover.onclick = (event) => {
     closeModal();
   }
 };
+
 document.onkeydown = (event) => {
   if (event.key === "Escape") {
     closeModal();
