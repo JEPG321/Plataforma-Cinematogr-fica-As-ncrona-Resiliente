@@ -20,11 +20,11 @@ Estado actual de la arquitectura:
 - Ya existe carga concurrente resiliente con `Promise.allSettled`.
 - Ya existe un cache asincrono encapsulado mediante clausuras.
 
-## Cambios que se realizaran
+## Estado de implementacion
 
 ### 1. Migracion a ECMAScript Modules (ESM)
 
-Estado: En progreso avanzado.
+Estado: Implementado.
 
 Ya realizado:
 
@@ -34,10 +34,10 @@ Ya realizado:
 - `js/ui.js` ahora exporta funciones de interfaz.
 - `js/favorites.js` ahora exporta funciones de favoritos.
 
-Pendiente dentro de esta fase:
+Validacion realizada:
 
-- validar visualmente la app en navegador
-- continuar con servicios asincronos sobre esta base modular
+- la app ya fue probada visualmente en navegador
+- la estructura modular ya sirve de base para toda la carga asincrona actual
 
 ### 2. Simulacion de tres servicios backend
 
@@ -115,11 +115,10 @@ Cambios ya aplicados:
 - Se agregaron alertas visuales y paneles de promociones/resenas para evidenciar resiliencia.
 - Se conecto el filtro por genero a un cache asincrono encapsulado con clausuras.
 
-Siguiente bloque recomendado:
+Pendiente fuera del codigo:
 
-- validar visualmente el flujo completo en navegador
-- probar `cache hit` y `cache miss` desde consola
-- preparar la demostracion del fallo forzado en DevTools
+- grabar el screencast explicativo
+- subir o verificar el repositorio final en GitHub
 
 ## Objetivo final
 
