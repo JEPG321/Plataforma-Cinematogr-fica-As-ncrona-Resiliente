@@ -15,8 +15,8 @@ Estado actual de la arquitectura:
 
 - El proyecto ya esta separado en varios archivos JS.
 - La aplicacion funciona sin base de datos real.
-- Los datos y modulos todavia se exponen con `window.*` e IIFE.
-- Aun no se usa arquitectura oficial ESM con `import` y `export`.
+- La migracion base a ESM ya inicio y la app ahora usa `type="module"` en `index.html`.
+- Los modulos principales ya dejaron de depender de `window.*`.
 - Aun no existe carga concurrente resiliente con `Promise.allSettled`.
 - Aun no existe un cache asincrono encapsulado mediante clausuras.
 
@@ -24,13 +24,21 @@ Estado actual de la arquitectura:
 
 ### 1. Migracion a ECMAScript Modules (ESM)
 
-Se modificara la carga de scripts para usar `type="module"` y se refactorizaran los archivos actuales para reemplazar:
+Estado: En progreso avanzado.
 
-- `window.moviesData`
-- `window.ui`
-- `window.favoritesStore`
+Ya realizado:
 
-por exports e imports reales entre modulos.
+- `index.html` ahora carga un unico punto de entrada con `type="module"`.
+- `js/app.js` ahora importa dependencias con `import`.
+- `js/data.js` ahora exporta `moviesData`.
+- `js/ui.js` ahora exporta funciones de interfaz.
+- `js/favorites.js` ahora exporta funciones de favoritos.
+
+Pendiente dentro de esta fase:
+
+- validar visualmente la app en navegador
+- limpiar textos con caracteres rotos en HTML si hiciera falta
+- continuar con servicios asincronos sobre esta base modular
 
 ### 2. Simulacion de tres servicios backend
 
@@ -79,6 +87,21 @@ Archivos a agregar:
 - `js/services/adService.js`
 - `js/cache/filterCache.js`
 - `js/utils/loadHomeData.js`
+
+## Avance realizado hasta ahora
+
+Cambios ya aplicados:
+
+- Se actualizo `index.html` para usar un solo script modulo.
+- Se elimino la dependencia de variables globales en los modulos JS principales.
+- Se convirtio la base actual a una estructura preparada para `import` y `export`.
+- Se mantuvo la logica principal de renderizado, filtros y favoritos sobre la nueva estructura.
+
+Siguiente bloque recomendado:
+
+- crear `movieService.js`, `reviewService.js` y `adService.js`
+- simular retrasos y errores controlados
+- integrar `Promise.allSettled` en la carga inicial
 
 ## Objetivo final
 

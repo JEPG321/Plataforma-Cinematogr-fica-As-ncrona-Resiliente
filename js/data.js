@@ -1,4 +1,4 @@
-window.moviesData = [
+export const moviesData = [
   {
     id: 1,
     title: { es: "Luz de Medianoche", en: "Midnight Signal" },
@@ -6,7 +6,7 @@ window.moviesData = [
     duration: "118 min",
     genreKey: "science_fiction",
     description: {
-      es: "Una mensajera urbana descubre una red de señales en el cielo que predicen apagones en toda la ciudad.",
+      es: "Una mensajera urbana descubre una red de senales en el cielo que predicen apagones en toda la ciudad.",
       en: "An urban courier discovers a network of signals in the sky that predicts blackouts across the city."
     },
     image: "assets/images/luz-de-medianoche.svg"
@@ -25,36 +25,36 @@ window.moviesData = [
   },
   {
     id: 3,
-    title: { es: "Jardín de Humo", en: "Garden of Smoke" },
+    title: { es: "Jardin de Humo", en: "Garden of Smoke" },
     year: 2026,
     duration: "110 min",
     genreKey: "drama",
     description: {
-      es: "Una fotógrafa regresa a su barrio para documentar el último cine antes de que cierre para siempre.",
+      es: "Una fotografa regresa a su barrio para documentar el ultimo cine antes de que cierre para siempre.",
       en: "A photographer returns to her neighborhood to document the last cinema before it closes forever."
     },
     image: "assets/images/jardin-de-humo.svg"
   },
   {
     id: 4,
-    title: { es: "Órbita Coral", en: "Coral Orbit" },
+    title: { es: "Orbita Coral", en: "Coral Orbit" },
     year: 2024,
     duration: "126 min",
     genreKey: "adventure",
     description: {
-      es: "Una tripulación submarina sigue una frecuencia misteriosa que parece venir desde otra dimensión marina.",
+      es: "Una tripulacion submarina sigue una frecuencia misteriosa que parece venir desde otra dimension marina.",
       en: "An underwater crew follows a mysterious frequency that seems to come from another marine dimension."
     },
     image: "assets/images/orbita-coral.svg"
   },
   {
     id: 5,
-    title: { es: "Código Lluvia", en: "Rain Code" },
+    title: { es: "Codigo Lluvia", en: "Rain Code" },
     year: 2026,
     duration: "99 min",
     genreKey: "thriller",
     description: {
-      es: "Un programador anónimo recibe mensajes cifrados cada vez que empieza una tormenta sobre la capital.",
+      es: "Un programador anonimo recibe mensajes cifrados cada vez que empieza una tormenta sobre la capital.",
       en: "An anonymous programmer receives encrypted messages every time a storm begins over the capital."
     },
     image: "assets/images/codigo-lluvia.svg"
@@ -66,7 +66,7 @@ window.moviesData = [
     duration: "108 min",
     genreKey: "horror",
     description: {
-      es: "Los huéspedes de un hotel abandonado despiertan cada noche en una década distinta y deben encontrar la salida.",
+      es: "Los huespedes de un hotel abandonado despiertan cada noche en una decada distinta y deben encontrar la salida.",
       en: "Guests inside an abandoned hotel wake up each night in a different decade and must find a way out."
     },
     image: "assets/images/hotel-aurora.svg"
@@ -78,7 +78,7 @@ window.moviesData = [
     duration: "115 min",
     genreKey: "fantasy",
     description: {
-      es: "Una chef hereda un recetario antiguo capaz de abrir portales a pueblos perdidos entre montañas nevadas.",
+      es: "Una chef hereda un recetario antiguo capaz de abrir portales a pueblos perdidos entre montanas nevadas.",
       en: "A chef inherits an ancient recipe book able to open portals to villages lost among snowy mountains."
     },
     image: "assets/images/brasa-del-norte.svg"
@@ -109,12 +109,12 @@ window.moviesData = [
   },
   {
     id: 10,
-    title: { es: "Satélite Gris", en: "Grey Satellite" },
+    title: { es: "Satelite Gris", en: "Grey Satellite" },
     year: 2025,
     duration: "113 min",
     genreKey: "science_fiction",
     description: {
-      es: "Una señal perdida vuelve a encender un satélite caído y revela recuerdos que no pertenecen a ningún humano.",
+      es: "Una senal perdida vuelve a encender un satelite caido y revela recuerdos que no pertenecen a ningun humano.",
       en: "A lost signal powers up a fallen satellite and reveals memories that do not belong to any human."
     },
     image: "assets/images/satelite-gris.svg"
@@ -126,7 +126,7 @@ window.moviesData = [
     duration: "117 min",
     genreKey: "drama",
     description: {
-      es: "Ocho desconocidos quedan unidos por una sala de cine histórica y por una carta hallada bajo una butaca antigua.",
+      es: "Ocho desconocidos quedan unidos por una sala de cine historica y por una carta hallada bajo una butaca antigua.",
       en: "Eight strangers are linked by a historic movie theater and a letter hidden beneath an old seat."
     },
     image: "assets/images/la-octava-butaca.svg"
@@ -138,7 +138,7 @@ window.moviesData = [
     duration: "124 min",
     genreKey: "adventure",
     description: {
-      es: "Un mapa ceremonial lleva a una arqueóloga y a su hermano a un valle que desaparece cada amanecer.",
+      es: "Un mapa ceremonial lleva a una arqueologa y a su hermano a un valle que desaparece cada amanecer.",
       en: "A ceremonial map leads an archaeologist and her brother to a valley that vanishes every dawn."
     },
     image: "assets/images/selva-de-bronce.svg"
@@ -181,7 +181,7 @@ window.moviesData = [
   },
   {
     id: 16,
-    title: { es: "Píxel Salvaje", en: "Wild Pixel" },
+    title: { es: "Pixel Salvaje", en: "Wild Pixel" },
     year: 2026,
     duration: "96 min",
     genreKey: "animation",
