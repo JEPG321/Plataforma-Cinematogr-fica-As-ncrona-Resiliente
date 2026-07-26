@@ -1,9 +1,12 @@
-import { moviesData } from "./data.js";
 import { getFavorites, toggleFavorite } from "./favorites.js";
+import { loadHomeData } from "./utils/loadHomeData.js";
 import {
   bindFavoritesToggle,
   bindSearch,
   openModal,
+  renderPromotion,
+  renderReviews,
+  renderServiceAlerts,
   renderGenreFilters,
   renderLanguageButtons,
   renderMovies,
@@ -12,8 +15,6 @@ import {
   updateResultsText,
   updateStaticText
 } from "./ui.js";
-
-const allMovies = moviesData;
 
 const i18n = {
   es: {
@@ -38,6 +39,12 @@ const i18n = {
     showing: "Mostrando",
     movieWord: (count) => `pelicula${count === 1 ? "" : "s"}`,
     favoriteWord: (count) => `favorita${count === 1 ? "" : "s"}`,
+    loadErrorTag: "Error",
+    loadErrorTitle: "Catalogo no disponible",
+    loadErrorCopy: "No fue posible cargar las peliculas principales. Intenta de nuevo.",
+    secondaryServiceTitle: "Servicio secundario con fallo controlado.",
+    reviewsFallback: "Las resenas no estuvieron disponibles, pero el catalogo sigue operativo.",
+    adsFallback: "Los anuncios no pudieron cargarse, pero la cartelera principal sigue disponible.",
     yearLabel: (year) => `Ano: ${year}`,
     durationLabel: (duration) => `Duracion: ${duration}`,
     posterAlt: (title) => `Poster de ${title}`,
@@ -75,6 +82,12 @@ const i18n = {
     showing: "Showing",
     movieWord: (count) => `movie${count === 1 ? "" : "s"}`,
     favoriteWord: (count) => `favorite${count === 1 ? "" : "s"}`,
+    loadErrorTag: "Error",
+    loadErrorTitle: "Catalog unavailable",
+    loadErrorCopy: "We could not load the main movies right now. Please try again.",
+    secondaryServiceTitle: "Secondary service failed safely.",
+    reviewsFallback: "User reviews could not be loaded, but the movie catalog is still working.",
+    adsFallback: "Promotions could not be loaded, but the main gallery is still available.",
     yearLabel: (year) => `Year: ${year}`,
     durationLabel: (duration) => `Duration: ${duration}`,
     posterAlt: (title) => `Poster for ${title}`,
@@ -92,10 +105,14 @@ const i18n = {
   }
 };
 
+let allMovies = [];
+let reviews = [];
+let promotion = null;
 let currentLang = "es";
 let showOnlyFavorites = false;
 let activeGenreKey = "all";
 let searchTerm = "";
+let secondaryAlertKeys = [];
 
 function getTexts() {
   return i18n[currentLang];
@@ -126,17 +143,54 @@ function getVisibleMovies() {
   });
 }
 
+function getAlertMessages(texts) {
+  return secondaryAlertKeys.map((key) => ({
+    title: texts.secondaryServiceTitle,
+    message: texts[key]
+  }));
+}
+
 function handleFavoriteClick(movieId) {
   toggleFavorite(movieId);
   render();
+}
+
+function renderCatalogUnavailable() {
+  const texts = getTexts();
+
+  updateStaticText(currentLang, texts);
+  renderServiceAlerts([]);
+  renderPromotion(null, currentLang);
+  renderReviews([], new Map(), currentLang);
+  renderGenreFilters([{ key: "all", label: texts.genres.all }], "all", () => {});
+  renderMovies(
+    [],
+    [],
+    currentLang,
+    {
+      ...texts,
+      noResultsTag: texts.loadErrorTag,
+      noResultsTitle: texts.loadErrorTitle,
+      noResultsCopy: texts.loadErrorCopy
+    },
+    () => {},
+    () => {}
+  );
+  updateResultsText(0, false, texts);
+  updateFavoritesCount(getFavorites().length);
+  updateFavoritesToggle(false);
 }
 
 function render() {
   const favorites = getFavorites();
   const visibleMovies = getVisibleMovies();
   const texts = getTexts();
+  const moviesById = new Map(allMovies.map((movie) => [movie.id, movie]));
 
   updateStaticText(currentLang, texts);
+  renderServiceAlerts(getAlertMessages(texts));
+  renderPromotion(promotion, currentLang);
+  renderReviews(reviews, moviesById, currentLang);
   renderLanguageButtons(currentLang, (lang) => {
     currentLang = lang;
     render();
@@ -168,4 +222,34 @@ bindSearch((value) => {
   render();
 });
 
-render();
+async function startApp() {
+  const texts = getTexts();
+  updateStaticText(currentLang, texts);
+
+  try {
+    const homeData = await loadHomeData();
+    allMovies = homeData.movies;
+    reviews = homeData.reviews;
+    promotion = homeData.promotion;
+    secondaryAlertKeys = [];
+
+    if (homeData.reviewsUnavailable) {
+      secondaryAlertKeys.push("reviewsFallback");
+    }
+
+    if (homeData.adsUnavailable) {
+      secondaryAlertKeys.push("adsFallback");
+    }
+
+    render();
+  } catch (error) {
+    console.error("Main catalog load failed:", error);
+    allMovies = [];
+    reviews = [];
+    promotion = null;
+    secondaryAlertKeys = [];
+    renderCatalogUnavailable();
+  }
+}
+
+startApp();

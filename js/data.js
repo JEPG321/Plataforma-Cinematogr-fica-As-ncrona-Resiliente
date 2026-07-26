@@ -192,3 +192,69 @@ export const moviesData = [
     image: "assets/images/pixel-salvaje.svg"
   }
 ];
+
+export const reviewsData = [
+  {
+    id: 1,
+    movieId: 1,
+    author: "Marta L.",
+    rating: 5,
+    comment: {
+      es: "Visualmente poderosa y con un cierre brillante.",
+      en: "Visually striking with a brilliant ending."
+    }
+  },
+  {
+    id: 2,
+    movieId: 9,
+    author: "Diego R.",
+    rating: 4,
+    comment: {
+      es: "Turbo Jaguar mantiene la tension de principio a fin.",
+      en: "Turbo Jaguar keeps the tension high from start to finish."
+    }
+  },
+  {
+    id: 3,
+    movieId: 3,
+    author: "Ana P.",
+    rating: 5,
+    comment: {
+      es: "Jardin de Humo tiene mucha sensibilidad y una gran fotografia.",
+      en: "Garden of Smoke has a lot of sensitivity and beautiful cinematography."
+    }
+  }
+];
+
+export const adsData = [
+  {
+    id: 1,
+    badge: {
+      es: "Promo del dia",
+      en: "Today's promo"
+    },
+    title: {
+      es: "Maraton de Accion con 20% de descuento",
+      en: "Action marathon with 20% off"
+    },
+    copy: {
+      es: "Compra tu combo para Ruta 88 y Turbo Jaguar antes de medianoche y activa el descuento especial.",
+      en: "Grab your combo for Route 88 and Turbo Jaguar before midnight to unlock the special discount."
+    }
+  },
+  {
+    id: 2,
+    badge: {
+      es: "Estreno destacado",
+      en: "Featured premiere"
+    },
+    title: {
+      es: "Semana de ciencia ficcion inmersiva",
+      en: "Immersive sci-fi week"
+    },
+    copy: {
+      es: "Descubre Luz de Medianoche y Satelite Gris con una experiencia especial de cartelera tematica.",
+      en: "Discover Midnight Signal and Grey Satellite with a special themed showcase."
+    }
+  }
+];

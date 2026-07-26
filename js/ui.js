@@ -6,6 +6,7 @@ const resultsText = document.getElementById("results-text");
 const favoritesToggle = document.getElementById("favorites-toggle");
 const favoritesLabel = document.getElementById("favorites-label");
 const favoritesCount = document.getElementById("favorites-count");
+const serviceAlerts = document.getElementById("service-alerts");
 const filtersNav = document.getElementById("filters-nav");
 const heroEyebrow = document.getElementById("hero-eyebrow");
 const heroTitle = document.getElementById("hero-title");
@@ -13,6 +14,12 @@ const heroCopy = document.getElementById("hero-copy");
 const sectionKicker = document.getElementById("section-kicker");
 const sectionTitle = document.getElementById("section-title");
 const footerText = document.getElementById("footer-text");
+const promotionsPanel = document.getElementById("promotions-panel");
+const promoTitle = document.getElementById("promo-title");
+const promoCopy = document.getElementById("promo-copy");
+const promoBadge = document.getElementById("promo-badge");
+const reviewsPanel = document.getElementById("reviews-panel");
+const reviewsList = document.getElementById("reviews-list");
 const modalCover = document.getElementById("modal-cover");
 const modalImage = document.getElementById("modal-image");
 const modalGenre = document.getElementById("modal-genre");
@@ -128,6 +135,63 @@ export function updateFavoritesCount(count) {
 export function updateFavoritesToggle(isActive) {
   favoritesToggle.classList.toggle("is-active", isActive);
   favoritesToggle.setAttribute("aria-pressed", String(isActive));
+}
+
+export function renderServiceAlerts(alerts) {
+  serviceAlerts.innerHTML = "";
+
+  if (!alerts.length) {
+    serviceAlerts.classList.add("hidden");
+    return;
+  }
+
+  alerts.forEach((alert) => {
+    const item = document.createElement("article");
+    item.className = "service-alert";
+    item.innerHTML = `<strong>${alert.title}</strong> ${alert.message}`;
+    serviceAlerts.appendChild(item);
+  });
+
+  serviceAlerts.classList.remove("hidden");
+}
+
+export function renderPromotion(promotion, lang) {
+  if (!promotion) {
+    promotionsPanel.classList.add("hidden");
+    promoTitle.textContent = "";
+    promoCopy.textContent = "";
+    promoBadge.textContent = "";
+    return;
+  }
+
+  promoTitle.textContent = promotion.title[lang];
+  promoCopy.textContent = promotion.copy[lang];
+  promoBadge.textContent = promotion.badge[lang];
+  promotionsPanel.classList.remove("hidden");
+}
+
+export function renderReviews(reviews, moviesById, lang) {
+  reviewsList.innerHTML = "";
+
+  if (!reviews.length) {
+    reviewsPanel.classList.add("hidden");
+    return;
+  }
+
+  reviews.forEach((review) => {
+    const card = document.createElement("article");
+    const movie = moviesById.get(review.movieId);
+    card.className = "review-card";
+    card.innerHTML = `
+      <p class="review-rating">${"★".repeat(review.rating)}</p>
+      <p class="review-movie">${movie ? movie.title[lang] : "Catalogo"}</p>
+      <p class="review-author">${review.author}</p>
+      <p class="review-comment">${review.comment[lang]}</p>
+    `;
+    reviewsList.appendChild(card);
+  });
+
+  reviewsPanel.classList.remove("hidden");
 }
 
 export function updateStaticText(lang, texts) {

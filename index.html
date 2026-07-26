@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neón en Cartelera</title>
+  <title>Neon en Cartelera</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -17,38 +17,59 @@
         <strong id="favorites-count">0</strong>
       </button>
       <p id="hero-eyebrow" class="eyebrow">Cartelera interactiva</p>
-      <h1 id="hero-title">Neón en Cartelera</h1>
+      <h1 id="hero-title">Neon en Cartelera</h1>
       <p id="hero-copy" class="hero-copy">
-        Una galería responsiva de películas hecha con HTML, CSS y JavaScript puro.
-        Explora títulos, abre el modal al tocar una tarjeta y marca tus favoritas.
+        Una galeria responsiva de peliculas hecha con HTML, CSS y JavaScript puro.
+        Explora titulos, abre el modal al tocar una tarjeta y marca tus favoritas.
       </p>
     </header>
 
     <main>
-      <nav id="filters-nav" class="filters-nav" aria-label="Filtros por género">
+      <section id="service-alerts" class="service-alerts hidden" aria-live="polite"></section>
+
+      <section id="promotions-panel" class="promotions-panel hidden" aria-live="polite">
+        <p class="section-kicker">Promocion activa</p>
+        <div class="promotion-card">
+          <h2 id="promo-title" class="promo-title"></h2>
+          <p id="promo-copy" class="promo-copy"></p>
+          <span id="promo-badge" class="promo-badge"></span>
+        </div>
+      </section>
+
+      <nav id="filters-nav" class="filters-nav" aria-label="Filtros por genero">
         <div id="language-switch" class="language-switch" aria-label="Seleccionar idioma">
-          <button class="language-btn is-active" type="button" data-lang="es">Español</button>
+          <button class="language-btn is-active" type="button" data-lang="es">Espanol</button>
           <button class="language-btn" type="button" data-lang="en">English</button>
         </div>
         <div class="search-wrap">
-          <input id="search-input" class="search-input" type="search" placeholder="Buscar película..." aria-label="Buscar película">
+          <input id="search-input" class="search-input" type="search" placeholder="Buscar pelicula..." aria-label="Buscar pelicula">
         </div>
         <div id="genre-filters" class="genre-filters"></div>
       </nav>
 
       <section class="section-heading">
         <div>
-          <p id="section-kicker" class="section-kicker">Selección destacada</p>
+          <p id="section-kicker" class="section-kicker">Seleccion destacada</p>
           <h2 id="section-title">Favoritos y estrenos visuales</h2>
         </div>
-        <p id="results-text" class="results-text">Cargando películas...</p>
+        <p id="results-text" class="results-text">Cargando peliculas...</p>
       </section>
 
-      <section id="movies-grid" class="movies-grid" aria-label="Galería de películas"></section>
+      <section id="movies-grid" class="movies-grid" aria-label="Galeria de peliculas"></section>
+
+      <section id="reviews-panel" class="reviews-panel hidden" aria-live="polite">
+        <div class="section-heading section-heading-compact">
+          <div>
+            <p class="section-kicker">Pulso del publico</p>
+            <h2 class="reviews-title">Resenas recientes</h2>
+          </div>
+        </div>
+        <div id="reviews-list" class="reviews-list"></div>
+      </section>
     </main>
 
     <footer class="footer">
-      <p id="footer-text">Neón en Cartelera · Proyecto responsivo con codificación UTF-8, modal, grid y favoritos.</p>
+      <p id="footer-text">Neon en Cartelera · Proyecto responsivo con codificacion UTF-8, modal, grid y favoritos.</p>
     </footer>
   </div>
 

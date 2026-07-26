@@ -17,7 +17,7 @@ Estado actual de la arquitectura:
 - La aplicacion funciona sin base de datos real.
 - La migracion base a ESM ya inicio y la app ahora usa `type="module"` en `index.html`.
 - Los modulos principales ya dejaron de depender de `window.*`.
-- Aun no existe carga concurrente resiliente con `Promise.allSettled`.
+- Ya existe carga concurrente resiliente con `Promise.allSettled`.
 - Aun no existe un cache asincrono encapsulado mediante clausuras.
 
 ## Cambios que se realizaran
@@ -37,22 +37,32 @@ Ya realizado:
 Pendiente dentro de esta fase:
 
 - validar visualmente la app en navegador
-- limpiar textos con caracteres rotos en HTML si hiciera falta
 - continuar con servicios asincronos sobre esta base modular
 
 ### 2. Simulacion de tres servicios backend
 
-Se agregaran servicios independientes para representar:
+Estado: Implementado.
 
-- Catalogo de peliculas
-- Resenas de usuarios
-- Anuncios promocionales
+Ya realizado:
 
-Cada servicio respondera con promesas simuladas usando datos mock y retrasos artificiales.
+- `js/services/movieService.js` para catalogo de peliculas.
+- `js/services/reviewService.js` para resenas de usuarios.
+- `js/services/adService.js` para anuncios promocionales.
+- Cada servicio responde con promesas simuladas y retrasos artificiales.
+- Resenas y anuncios pueden fallar de forma aleatoria.
+- Tambien se puede forzar el fallo desde `sessionStorage` para el screencast.
 
 ### 3. Orquestacion concurrente resiliente
 
-La carga inicial de la app se movera a un flujo con `Promise.allSettled` para consultar en paralelo los tres servicios.
+Estado: Implementado.
+
+Ya realizado:
+
+- Se agrego `js/utils/loadHomeData.js`.
+- La carga inicial ahora usa `Promise.allSettled`.
+- Si falla Catalogo, se muestra un error principal de carga.
+- Si falla Resenas o Anuncios, el catalogo principal sigue renderizando.
+- Se muestran alertas visuales no criticas para evidenciar el fallo controlado.
 
 Comportamiento esperado:
 
@@ -79,6 +89,7 @@ Archivos a modificar:
 - `js/ui.js`
 - `js/data.js`
 - `js/favorites.js`
+- `styles.css`
 
 Archivos a agregar:
 
@@ -96,12 +107,15 @@ Cambios ya aplicados:
 - Se elimino la dependencia de variables globales en los modulos JS principales.
 - Se convirtio la base actual a una estructura preparada para `import` y `export`.
 - Se mantuvo la logica principal de renderizado, filtros y favoritos sobre la nueva estructura.
+- Se agrego una capa de servicios simulados para catalogo, resenas y anuncios.
+- Se integro `Promise.allSettled` para cargar los tres servicios en paralelo.
+- Se agregaron alertas visuales y paneles de promociones/resenas para evidenciar resiliencia.
 
 Siguiente bloque recomendado:
 
-- crear `movieService.js`, `reviewService.js` y `adService.js`
-- simular retrasos y errores controlados
-- integrar `Promise.allSettled` en la carga inicial
+- crear `js/cache/filterCache.js`
+- conectar el filtro por genero al cache asincrono con clausuras
+- preparar la demostracion del fallo forzado en DevTools
 
 ## Objetivo final
 

@@ -160,6 +160,75 @@ h1 {
   margin: 34px 0 18px;
 }
 
+.section-heading-compact {
+  margin-bottom: 16px;
+}
+
+.service-alerts,
+.promotions-panel,
+.reviews-panel {
+  margin-top: 26px;
+}
+
+.service-alerts {
+  display: grid;
+  gap: 12px;
+}
+
+.service-alert {
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 183, 3, 0.24);
+  border-radius: 18px;
+  background: rgba(255, 183, 3, 0.1);
+  color: #ffe2a8;
+  box-shadow: var(--shadow);
+}
+
+.service-alert strong {
+  color: #fff2d4;
+}
+
+.promotions-panel,
+.reviews-panel {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow);
+}
+
+.promotion-card {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 183, 3, 0.22), transparent 30%),
+    linear-gradient(135deg, rgba(58, 134, 255, 0.16), rgba(255, 255, 255, 0.04));
+}
+
+.promo-title,
+.reviews-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.promo-copy {
+  max-width: 720px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.promo-badge {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 183, 3, 0.18);
+  color: #ffe2a8;
+  font-weight: 700;
+}
+
 .filters-nav {
   margin-top: 26px;
   padding: 14px;
@@ -250,6 +319,41 @@ h2 {
   grid-template-columns: repeat(auto-fill, 260px);
   justify-content: center;
   gap: 22px;
+}
+
+.reviews-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.review-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(11, 23, 40, 0.78);
+}
+
+.review-rating {
+  margin: 0 0 8px;
+  color: #ffd580;
+  font-weight: 800;
+}
+
+.review-movie,
+.review-author {
+  margin: 0;
+}
+
+.review-author {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.review-comment {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.65;
 }
 
 .movie-card {
