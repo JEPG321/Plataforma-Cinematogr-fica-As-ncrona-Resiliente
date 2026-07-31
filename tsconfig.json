@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["dist", "node_modules"]
+}
