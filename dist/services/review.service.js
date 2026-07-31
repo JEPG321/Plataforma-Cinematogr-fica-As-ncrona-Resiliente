@@ -1,5 +1,5 @@
-import { adsData } from "../app/data.js";
-const forceFailureKey = "forceAdsFailure";
+import { reviewsData } from "../app/data.js";
+const forceFailureKey = "forceReviewsFailure";
 function delay(ms) {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);
@@ -11,12 +11,12 @@ function shouldFailRandomly() {
 function shouldForceFailure() {
     return sessionStorage.getItem(forceFailureKey) === "true";
 }
-export async function fetchPromotions() {
-    await delay(750);
+export async function fetchReviews() {
+    await delay(900);
     if (shouldForceFailure() || shouldFailRandomly()) {
-        throw new Error("Ads endpoint failed.");
+        throw new Error("Reviews endpoint failed.");
     }
-    return [...adsData];
+    return [...reviewsData];
 }
-export { forceFailureKey as adsFailureFlag };
-//# sourceMappingURL=adService.js.map
+export { forceFailureKey as reviewsFailureFlag };
+//# sourceMappingURL=review.service.js.map

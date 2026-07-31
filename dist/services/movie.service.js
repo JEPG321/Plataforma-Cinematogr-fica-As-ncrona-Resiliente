@@ -8,4 +8,4 @@ export async function fetchMovies() {
     await delay(650);
     return [...moviesData];
 }
-//# sourceMappingURL=movieService.js.map
+//# sourceMappingURL=movie.service.js.map

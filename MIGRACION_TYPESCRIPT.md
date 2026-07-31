@@ -27,9 +27,9 @@ Los archivos logicos fueron renombrados de `.js` a `.ts`:
 - `src/favorites.ts`
 - `src/ui.ts`
 - `src/cache/filterCache.ts`
-- `src/services/movieService.ts`
-- `src/services/reviewService.ts`
-- `src/services/adService.ts`
+- `src/services/movie.service.ts`
+- `src/services/review.service.ts`
+- `src/services/ad.service.ts`
 - `src/utils/loadHomeData.ts`
 
 ### 3. Reorganizacion profesional con src
@@ -57,9 +57,9 @@ Archivos creados:
 - `src/dtos/movie.DTO.ts`
 - `src/dtos/review.DTO.ts`
 - `src/dtos/promotion.DTO.ts`
-- `src/mappers/movieMapper.ts`
-- `src/mappers/reviewMapper.ts`
-- `src/mappers/promotionMapper.ts`
+- `src/mappers/movie.mapper.ts`
+- `src/mappers/review.mapper.ts`
+- `src/mappers/promotion.mapper.ts`
 - `src/entities/domain.ts`
 
 ### 5. Tipado de los tres endpoints concurrentes

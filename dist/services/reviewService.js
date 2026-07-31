@@ -1,4 +1,4 @@
-import { reviewsData } from "../data.js";
+import { reviewsData } from "../app/data.js";
 const forceFailureKey = "forceReviewsFailure";
 function delay(ms) {
     return new Promise((resolve) => {

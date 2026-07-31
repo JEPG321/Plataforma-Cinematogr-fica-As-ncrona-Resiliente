@@ -1,9 +1,9 @@
-import { mapMovies } from "../mappers/movieMapper.js";
-import { mapPromotions } from "../mappers/promotionMapper.js";
-import { mapReviews } from "../mappers/reviewMapper.js";
-import { fetchPromotions } from "../services/adService.js";
-import { fetchMovies } from "../services/movieService.js";
-import { fetchReviews } from "../services/reviewService.js";
+import { mapMovies } from "../mappers/movie.mapper.js";
+import { mapPromotions } from "../mappers/promotion.mapper.js";
+import { mapReviews } from "../mappers/review.mapper.js";
+import { fetchPromotions } from "../services/ad.service.js";
+import { fetchMovies } from "../services/movie.service.js";
+import { fetchReviews } from "../services/review.service.js";
 export async function loadHomeData() {
     const [moviesResult, reviewsResult, adsResult] = await Promise.allSettled([
         fetchMovies(),

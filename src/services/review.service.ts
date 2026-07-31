@@ -1,5 +1,5 @@
 import type { ReviewResponseDto } from "../dtos/review.DTO.js";
-import { reviewsData } from "../data.js";
+import { reviewsData } from "../app/data.js";
 
 const forceFailureKey = "forceReviewsFailure";
 

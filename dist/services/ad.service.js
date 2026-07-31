@@ -19,4 +19,4 @@ export async function fetchPromotions() {
     return [...adsData];
 }
 export { forceFailureKey as adsFailureFlag };
-//# sourceMappingURL=adService.js.map
+//# sourceMappingURL=ad.service.js.map

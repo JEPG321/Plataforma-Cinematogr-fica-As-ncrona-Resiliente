@@ -6,7 +6,7 @@ import type {
   Review,
   ServiceAlert,
   UiTexts
-} from "./entities/domain.js";
+} from "../entities/domain.js";
 
 function getRequiredElement<T extends HTMLElement>(id: string): T {
   const element = document.getElementById(id);

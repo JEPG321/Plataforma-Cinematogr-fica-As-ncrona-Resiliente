@@ -8,8 +8,8 @@ import type {
   Review,
   ServiceAlert,
   UiTexts
-} from "./entities/domain.js";
-import { createMovieFilterCache } from "./cache/filterCache.js";
+} from "../entities/domain.js";
+import { createMovieFilterCache } from "../cache/filterCache.js";
 import { getFavorites, toggleFavorite } from "./favorites.js";
 import {
   bindFavoritesToggle,
@@ -26,7 +26,7 @@ import {
   updateResultsText,
   updateStaticText
 } from "./ui.js";
-import { loadHomeData } from "./utils/loadHomeData.js";
+import { loadHomeData } from "../utils/loadHomeData.js";
 
 const i18n: Record<LanguageCode, UiTexts> = {
   es: {

@@ -1,6 +1,6 @@
-import type { MovieResponseDto } from "./dtos/movie.DTO.js";
-import type { PromotionResponseDto } from "./dtos/promotion.DTO.js";
-import type { ReviewResponseDto } from "./dtos/review.DTO.js";
+import type { MovieResponseDto } from "../dtos/movie.DTO.js";
+import type { PromotionResponseDto } from "../dtos/promotion.DTO.js";
+import type { ReviewResponseDto } from "../dtos/review.DTO.js";
 
 export const moviesData: MovieResponseDto[] = [
   {
