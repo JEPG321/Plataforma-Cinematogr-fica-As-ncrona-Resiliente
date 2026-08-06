@@ -48,6 +48,7 @@ Archivos nuevos o activados en esta etapa:
 - [postcss.config.mjs](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\postcss.config.mjs)
 - [src/components](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components)
 - [src/lib](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\lib)
+- [src/mock/home-data.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\mock\home-data.ts)
 - [tsconfig.legacy.json](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\tsconfig.legacy.json)
 
 Funcionalidad ya migrada a React:
@@ -71,6 +72,7 @@ Mejoras adicionales aplicadas el 6 de agosto de 2026:
 - enfoque inicial del boton de cierre al abrir el modal
 - bloqueo de scroll del `body` mientras el modal esta abierto
 - estado de carga visual con skeletons para la grilla principal
+- separacion de la data mock en una capa propia para que la app nueva no dependa de `src/legacy-app/data.ts`
 
 Pendiente despues de esta etapa:
 
@@ -78,6 +80,7 @@ Pendiente despues de esta etapa:
 - revisar accesibilidad fina adicional de teclado y foco
 - decidir si la carga inicial quedara definitivamente en cliente o si parte de los datos pasara a servidor
 - migrar o retirar por completo la base antigua cuando ya no sea necesaria
+- decidir si `src/legacy-app/data.ts` se elimina mas adelante o queda solo como reexport temporal
 
 ## Diagnostico tecnico
 
@@ -303,6 +306,12 @@ Estado:
 
 Completada en su primera version el 6 de agosto de 2026.
 
+Avance agregado el 6 de agosto de 2026:
+
+- la data mock fue extraida a [src/mock/home-data.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\mock\home-data.ts)
+- los servicios nuevos ya no dependen de [src/legacy-app/data.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app\data.ts)
+- [src/legacy-app/data.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app\data.ts) quedo como reexport de compatibilidad temporal
+
 ### Fase 3. Migracion de la interfaz
 
 Objetivo:
@@ -403,6 +412,7 @@ Validaciones acumuladas al 6 de agosto de 2026:
 
 - compilacion exitosa despues del bootstrap de Next.js
 - compilacion exitosa despues de los ajustes de accesibilidad e interaccion
+- compilacion exitosa despues de desacoplar la data mock del legacy
 
 ## Criterios de exito
 
@@ -493,9 +503,14 @@ Utilidades nuevas:
 - [src/lib/favorites.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\lib\favorites.ts)
 - [src/lib/selectors.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\lib\selectors.ts)
 
+Datos mock desacoplados:
+
+- [src/mock/home-data.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\mock\home-data.ts)
+
 Compatibilidad temporal con la version anterior:
 
 - [src/legacy-app](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app) conserva la implementacion original mientras terminamos la migracion.
+- la nueva app ya no consume directamente la data mock desde `legacy`
 
 ## Estado del frente migrado
 
@@ -504,6 +519,11 @@ La pantalla principal ya funciona sobre React y Tailwind, y en esta etapa quedo 
 - estructura HTML mas correcta en las tarjetas
 - mejor experiencia de carga inicial
 - mejor comportamiento accesible del modal
+
+En el avance mas reciente del jueves 6 de agosto de 2026, tambien quedo mejor separada la arquitectura:
+
+- la app nueva consume datos mock desde una carpeta propia
+- `legacy-app` empieza a quedar aislada como compatibilidad temporal
 
 ## Resultado esperado
 

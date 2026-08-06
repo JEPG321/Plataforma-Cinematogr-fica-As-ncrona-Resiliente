@@ -1,5 +1,5 @@
 import type { PromotionResponseDto } from "../dtos/promotion.DTO";
-import { adsData } from "../legacy-app/data";
+import { adsData } from "../mock/home-data";
 
 const forceFailureKey = "forceAdsFailure";
 

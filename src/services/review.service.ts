@@ -1,5 +1,5 @@
 import type { ReviewResponseDto } from "../dtos/review.DTO";
-import { reviewsData } from "../legacy-app/data";
+import { reviewsData } from "../mock/home-data";
 
 const forceFailureKey = "forceReviewsFailure";
 

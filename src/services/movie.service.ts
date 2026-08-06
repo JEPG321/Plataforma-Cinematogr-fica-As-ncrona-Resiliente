@@ -1,5 +1,5 @@
 import type { MovieResponseDto } from "../dtos/movie.DTO";
-import { moviesData } from "../legacy-app/data";
+import { moviesData } from "../mock/home-data";
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => {
