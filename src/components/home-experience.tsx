@@ -210,7 +210,27 @@ export function HomeExperience() {
         <p className="text-sm font-medium text-slate-300">{resultsText}</p>
       </section>
 
-      {mainLoadFailed ? (
+      {isLoading ? (
+        <section
+          aria-label={texts.gridAria}
+          className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4"
+        >
+          {Array.from({ length: 8 }).map((_, index) => (
+            <article
+              key={`loading-card-${index}`}
+              className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5"
+            >
+              <div className="aspect-[4/5] animate-pulse bg-slate-800/70" />
+              <div className="space-y-3 p-5">
+                <div className="h-3 w-24 animate-pulse rounded-full bg-slate-700/80" />
+                <div className="h-6 w-3/4 animate-pulse rounded-full bg-slate-700/80" />
+                <div className="h-4 w-full animate-pulse rounded-full bg-slate-800/80" />
+                <div className="h-4 w-5/6 animate-pulse rounded-full bg-slate-800/80" />
+              </div>
+            </article>
+          ))}
+        </section>
+      ) : mainLoadFailed ? (
         <MoviesGrid
           movies={[]}
           favorites={favorites}

@@ -62,10 +62,20 @@ Funcionalidad ya migrada a React:
 - resenas
 - alertas por fallos controlados
 
+Mejoras adicionales aplicadas el 6 de agosto de 2026:
+
+- correccion de la estructura de tarjetas para evitar botones anidados
+- mejora de accesibilidad del modal con `role="dialog"` y `aria-modal="true"`
+- cierre del modal al presionar `Escape`
+- cierre del modal al hacer clic en el fondo
+- enfoque inicial del boton de cierre al abrir el modal
+- bloqueo de scroll del `body` mientras el modal esta abierto
+- estado de carga visual con skeletons para la grilla principal
+
 Pendiente despues de esta etapa:
 
 - refinar diseno visual para acercarlo o superar la version original
-- revisar accesibilidad fina de modal y teclado
+- revisar accesibilidad fina adicional de teclado y foco
 - decidir si la carga inicial quedara definitivamente en cliente o si parte de los datos pasara a servidor
 - migrar o retirar por completo la base antigua cuando ya no sea necesaria
 
@@ -314,6 +324,12 @@ Estado:
 
 Ya iniciada y funcional el 6 de agosto de 2026.
 
+Avance agregado el 6 de agosto de 2026:
+
+- tarjetas de pelicula corregidas para una estructura HTML valida
+- acciones separadas para detalle y favoritos
+- modal con mejor semantica accesible
+
 ### Fase 4. Estado e interactividad
 
 Objetivo:
@@ -333,6 +349,13 @@ Estado:
 
 Implementada en la primera pantalla migrada.
 
+Avance agregado el 6 de agosto de 2026:
+
+- cierre con `Escape`
+- cierre por backdrop
+- bloqueo de scroll mientras el modal esta abierto
+- carga visual inicial con skeletons
+
 ### Fase 5. Estilo final con Tailwind
 
 Objetivo:
@@ -349,6 +372,11 @@ Tareas:
 Estado:
 
 Iniciada, pero aun pendiente de refinamiento visual y accesibilidad fina.
+
+Avance agregado el 6 de agosto de 2026:
+
+- ya existe una primera capa de estados visuales para loading
+- la base visual ya no depende de `styles.css` para la pantalla principal
 
 ### Fase 6. Validacion final
 
@@ -370,6 +398,11 @@ Tareas:
 Estado:
 
 Validacion tecnica inicial completada con `npm.cmd run build` el 6 de agosto de 2026.
+
+Validaciones acumuladas al 6 de agosto de 2026:
+
+- compilacion exitosa despues del bootstrap de Next.js
+- compilacion exitosa despues de los ajustes de accesibilidad e interaccion
 
 ## Criterios de exito
 
@@ -463,6 +496,14 @@ Utilidades nuevas:
 Compatibilidad temporal con la version anterior:
 
 - [src/legacy-app](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app) conserva la implementacion original mientras terminamos la migracion.
+
+## Estado del frente migrado
+
+La pantalla principal ya funciona sobre React y Tailwind, y en esta etapa quedo reforzada en tres aspectos importantes:
+
+- estructura HTML mas correcta en las tarjetas
+- mejor experiencia de carga inicial
+- mejor comportamiento accesible del modal
 
 ## Resultado esperado
 

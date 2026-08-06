@@ -1,3 +1,4 @@
+import { useEffect, useId, useRef } from "react";
 import Image from "next/image";
 import type { LanguageCode, Movie, UiTexts } from "../entities/domain";
 
@@ -9,14 +10,50 @@ interface MovieModalProps {
 }
 
 export function MovieModal({ movie, lang, texts, onClose }: MovieModalProps) {
+  const titleId = useId();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!movie) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    }
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+    closeButtonRef.current?.focus();
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [movie, onClose]);
+
   if (!movie) {
     return null;
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-6 backdrop-blur-sm">
-      <div className="relative grid max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950 shadow-2xl shadow-black/50 lg:grid-cols-[0.95fr_1.05fr]">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 px-4 py-6 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className="relative grid max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950 shadow-2xl shadow-black/50 lg:grid-cols-[0.95fr_1.05fr]"
+        onClick={(event) => event.stopPropagation()}
+      >
         <button
+          ref={closeButtonRef}
           type="button"
           onClick={onClose}
           aria-label={texts.closeModal}
@@ -39,7 +76,9 @@ export function MovieModal({ movie, lang, texts, onClose }: MovieModalProps) {
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-orange-200">
             {texts.genres[movie.genreKey]}
           </p>
-          <h3 className="text-3xl font-bold text-white">{movie.title[lang]}</h3>
+          <h3 id={titleId} className="text-3xl font-bold text-white">
+            {movie.title[lang]}
+          </h3>
           <p className="text-sm leading-7 text-slate-300">{movie.description[lang]}</p>
           <div className="flex flex-wrap gap-3 text-sm text-slate-200">
             <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">
