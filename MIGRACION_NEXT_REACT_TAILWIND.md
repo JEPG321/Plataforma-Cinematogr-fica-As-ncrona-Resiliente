@@ -1,0 +1,391 @@
+# Migracion Base a Next.js, React y Tailwind CSS
+
+## Fecha
+6 de agosto de 2026
+
+## Objetivo
+
+Migrar la aplicacion actual, construida con `HTML + CSS + TypeScript + manipulacion directa del DOM`, hacia una base moderna con:
+
+- `Next.js`
+- `React`
+- `Tailwind CSS`
+- `TypeScript`
+
+La meta no es solo cambiar tecnologia, sino dejar una estructura mas escalable, mantenible y lista para crecer.
+
+## Estado actual del proyecto
+
+La aplicacion actual ya tiene una ventaja importante: la logica no esta completamente mezclada con la interfaz.
+
+Base identificada:
+
+- [index.html](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\index.html) contiene la estructura principal de la pagina.
+- [styles.css](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\styles.css) concentra el diseno visual actual.
+- [src/app/app.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\app\app.ts) controla el flujo principal de la aplicacion.
+- [src/app/ui.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\app\ui.ts) encapsula el renderizado y la manipulacion del DOM.
+- [src/app/favorites.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\app\favorites.ts) administra favoritos con `localStorage`.
+- [src/utils/loadHomeData.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\utils\loadHomeData.ts) orquesta la carga inicial.
+- [src/entities/domain.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\entities\domain.ts) define los tipos de dominio.
+- [src/services](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\services), [src/mappers](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\mappers) y [src/dtos](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\dtos) ya separan datos, transformacion y consumo.
+
+## Diagnostico tecnico
+
+Lo que ya esta bien:
+
+- Existe separacion entre dominio, servicios, mappers y UI.
+- El proyecto ya usa `TypeScript`.
+- La carga principal ya esta desacoplada en una funcion reutilizable.
+- La app ya tiene logica clara para filtros, favoritos, idiomas, modal y busqueda.
+
+Lo que debe cambiar para la migracion:
+
+- El renderizado actual depende de `document.getElementById`, `innerHTML`, `onclick` y manejo manual del DOM.
+- La estructura vive en `index.html`, lo cual no corresponde al modelo de componentes de React.
+- `styles.css` esta centralizado como hoja global, en lugar de estar organizado por componentes o utilidades.
+- El estado de la interfaz esta distribuido en variables globales dentro de `app.ts`.
+
+## Decision de arquitectura
+
+La nueva base debe quedar sobre:
+
+- `Next.js` como framework principal
+- `React` para el modelo de componentes
+- `App Router` de Next.js
+- `Tailwind CSS` para estilos
+- `TypeScript` como lenguaje principal
+
+## Enfoque de migracion recomendado
+
+La migracion debe hacerse por capas, no reescribiendo todo al mismo tiempo.
+
+### 1. Reutilizar la capa de dominio y datos
+
+Se debe conservar, con ajustes menores si hicieran falta:
+
+- `entities`
+- `dtos`
+- `mappers`
+- `services`
+- `utils/loadHomeData.ts`
+
+Estas piezas ya representan una base limpia y portable hacia Next.js.
+
+### 2. Reemplazar la capa de UI actual
+
+Se debe sustituir completamente la logica de:
+
+- `index.html`
+- `src/app/ui.ts`
+- la parte de arranque visual de `src/app/app.ts`
+
+Todo eso debe convertirse a componentes React.
+
+### 3. Mantener la funcionalidad existente
+
+La migracion no debe perder:
+
+- favoritos con `localStorage`
+- filtros por genero
+- cambio de idioma `es/en`
+- busqueda
+- modal de detalle
+- promociones
+- resenas
+- alertas por fallos controlados
+
+## Estructura objetivo sugerida
+
+```txt
+src/
+  app/
+    layout.tsx
+    page.tsx
+    globals.css
+  components/
+    hero.tsx
+    filters-bar.tsx
+    movies-grid.tsx
+    movie-card.tsx
+    movie-modal.tsx
+    promotion-panel.tsx
+    reviews-panel.tsx
+    service-alerts.tsx
+  lib/
+    i18n.ts
+    favorites.ts
+    selectors.ts
+  entities/
+  dtos/
+  mappers/
+  services/
+  utils/
+public/
+  images/
+```
+
+## Distribucion de responsabilidades
+
+### `app/page.tsx`
+
+Debe ser la pagina principal de la cartelera.
+
+Responsabilidades:
+
+- recibir o cargar los datos iniciales
+- montar la vista principal
+- conectar componentes de alto nivel
+
+### `components/`
+
+Cada bloque de interfaz debe quedar desacoplado:
+
+- `Hero`: encabezado principal
+- `FiltersBar`: idioma, busqueda y generos
+- `MoviesGrid`: grilla principal
+- `MovieCard`: tarjeta individual
+- `MovieModal`: detalle de pelicula
+- `PromotionPanel`: promocion destacada
+- `ReviewsPanel`: resenas
+- `ServiceAlerts`: alertas de servicios secundarios
+
+### `lib/favorites.ts`
+
+Debe contener la logica cliente de favoritos:
+
+- leer favoritos
+- guardar favoritos
+- alternar favoritos
+
+Nota:
+
+Esta capa debe protegerse para ejecutarse solo en cliente, porque `localStorage` no existe en el servidor.
+
+### `lib/i18n.ts`
+
+Debe centralizar los textos actualmente definidos en `app.ts`.
+
+Esto ayuda a:
+
+- evitar un archivo de pagina demasiado grande
+- mantener escalable el soporte bilingue
+- reutilizar textos desde varios componentes
+
+## Estrategia de datos en Next.js
+
+Como el proyecto actual usa datos simulados y servicios locales, la opcion mas simple y ordenada es:
+
+- cargar datos iniciales desde servidor en `page.tsx`
+- dejar favoritos, modal y filtros como estado de cliente
+
+Modelo recomendado:
+
+- datos iniciales: `Server Component`
+- interaccion de usuario: `Client Components`
+
+Esto permite aprovechar mejor Next.js sin complicar la migracion.
+
+## Estrategia de Tailwind CSS
+
+Tailwind debe usarse como base principal del nuevo estilo.
+
+### Reglas de trabajo
+
+- evitar recrear `styles.css` completo dentro de un solo archivo
+- migrar estilos componente por componente
+- dejar `globals.css` solo para resets, fuentes, variables y reglas muy generales
+- usar clases utilitarias directamente en JSX
+
+### Convencion sugerida
+
+- espaciados consistentes
+- tipografia clara
+- colores definidos desde variables o tema
+- clases condicionales para estados activos, favoritos, filtros y modal
+
+### Complementos utiles
+
+Opcionales pero recomendables:
+
+- `clsx`
+- `tailwind-merge`
+
+Sirven para manejar clases dinamicas de forma mas limpia en React.
+
+## Fases de trabajo
+
+### Fase 1. Preparacion del proyecto
+
+Objetivo:
+
+Dejar lista la base tecnica de Next.js.
+
+Tareas:
+
+- inicializar proyecto con `Next.js + TypeScript`
+- instalar y configurar `Tailwind CSS`
+- mover assets a `public/`
+- preparar `src/app/layout.tsx`
+- preparar `src/app/page.tsx`
+- crear `globals.css`
+
+### Fase 2. Migracion del dominio reutilizable
+
+Objetivo:
+
+Reusar lo que ya esta bien hecho.
+
+Tareas:
+
+- mover `entities`
+- mover `dtos`
+- mover `mappers`
+- mover `services`
+- mover `utils/loadHomeData.ts`
+- ajustar imports a la nueva estructura
+
+### Fase 3. Migracion de la interfaz
+
+Objetivo:
+
+Reemplazar la UI basada en DOM por componentes React.
+
+Tareas:
+
+- construir `Hero`
+- construir `FiltersBar`
+- construir `MoviesGrid`
+- construir `MovieCard`
+- construir `PromotionPanel`
+- construir `ReviewsPanel`
+- construir `MovieModal`
+- construir `ServiceAlerts`
+
+### Fase 4. Estado e interactividad
+
+Objetivo:
+
+Recuperar toda la experiencia de usuario actual.
+
+Tareas:
+
+- migrar favoritos a hooks cliente
+- migrar filtros por genero
+- migrar busqueda
+- migrar cambio de idioma
+- migrar apertura y cierre del modal
+- migrar contador de favoritas
+
+### Fase 5. Estilo final con Tailwind
+
+Objetivo:
+
+Dejar la app visualmente consistente y responsiva.
+
+Tareas:
+
+- convertir estilos actuales a utilidades Tailwind
+- ajustar responsive en mobile, tablet y desktop
+- mantener jerarquia visual
+- revisar hover, focus y accesibilidad
+
+### Fase 6. Validacion final
+
+Objetivo:
+
+Comprobar que la migracion no rompio funcionalidad.
+
+Tareas:
+
+- verificar carga inicial
+- verificar modal
+- verificar favoritos
+- verificar filtros
+- verificar idioma
+- verificar busqueda
+- verificar promociones y resenas
+- verificar estados de error controlado
+
+## Criterios de exito
+
+La migracion se considerara correcta si:
+
+- la app corre sobre `Next.js`
+- la UI esta construida con `React`
+- el estilo principal usa `Tailwind CSS`
+- se conserva la funcionalidad actual
+- la estructura queda lista para escalar
+- el codigo queda mas mantenible que la version actual
+
+## Riesgos a cuidar
+
+### 1. Mezclar demasiado CSS viejo con Tailwind
+
+Riesgo:
+
+Duplicidad de estilos y mantenimiento confuso.
+
+Medida:
+
+Migrar bloques completos en lugar de mezclar por mucho tiempo ambos enfoques.
+
+### 2. Usar `localStorage` en componentes de servidor
+
+Riesgo:
+
+Errores de ejecucion en Next.js.
+
+Medida:
+
+Encapsular favoritos en componentes cliente o helpers protegidos.
+
+### 3. Reescribir logica ya estable
+
+Riesgo:
+
+Introducir errores donde hoy ya existe funcionalidad correcta.
+
+Medida:
+
+Reutilizar servicios, dominio y mapeadores siempre que sea posible.
+
+### 4. Perder la separacion actual
+
+Riesgo:
+
+Mover todo a un `page.tsx` gigante.
+
+Medida:
+
+Dividir claramente por componentes y utilidades.
+
+## Orden de trabajo recomendado
+
+1. Crear base `Next.js + Tailwind`.
+2. Mover datos, dominio y servicios.
+3. Crear la pagina principal en React.
+4. Separar componentes visuales.
+5. Migrar estado e interacciones.
+6. Ajustar estilos finales.
+7. Probar toda la aplicacion.
+
+## Resultado esperado
+
+Al terminar, el proyecto debe pasar de una app basada en HTML estatico y renderizado manual a una aplicacion moderna con componentes reutilizables, mejor manejo de estado y una base mucho mas profesional para futuras ampliaciones.
+
+## Siguiente paso recomendado
+
+El siguiente paso practico debe ser crear la base del proyecto con:
+
+- `Next.js`
+- `React`
+- `Tailwind CSS`
+- `TypeScript`
+
+Y luego comenzar la migracion del `home` principal usando primero:
+
+- `page.tsx`
+- `Hero`
+- `FiltersBar`
+- `MoviesGrid`
+- `MovieCard`
