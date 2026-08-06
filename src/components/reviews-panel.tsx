@@ -33,7 +33,7 @@ export function ReviewsPanel({
           return (
             <article
               key={review.id}
-              className="rounded-[1.5rem] border border-white/10 bg-white/6 p-5"
+              className="glass-panel rounded-[1.5rem] border border-white/10 p-5 shadow-lg shadow-slate-950/20"
             >
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-orange-200">
                 {"*".repeat(review.rating)}

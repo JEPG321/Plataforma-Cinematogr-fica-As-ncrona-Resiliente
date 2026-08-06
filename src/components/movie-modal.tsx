@@ -57,7 +57,7 @@ export function MovieModal({ movie, lang, texts, onClose }: MovieModalProps) {
           type="button"
           onClick={onClose}
           aria-label={texts.closeModal}
-          className="absolute right-4 top-4 z-10 rounded-full border border-white/15 bg-slate-950/70 px-3 py-2 text-sm text-white transition hover:border-orange-300"
+          className="absolute right-4 top-4 z-10 rounded-full border border-white/15 bg-slate-950/70 px-3 py-2 text-sm text-white transition hover:border-orange-300 focus-visible:outline-offset-2"
         >
           Cerrar
         </button>

@@ -18,8 +18,10 @@
 html {
   background:
     radial-gradient(circle at top, rgba(249, 115, 22, 0.18), transparent 28%),
+    radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.1), transparent 22%),
     linear-gradient(180deg, #08111f 0%, #050913 100%);
   color: var(--foreground);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -35,6 +37,12 @@ input {
   font: inherit;
 }
 
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid rgba(251, 146, 60, 0.92);
+  outline-offset: 2px;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -42,4 +50,9 @@ img {
 
 ::selection {
   background: rgba(249, 115, 22, 0.32);
+}
+
+.glass-panel {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.56));
+  backdrop-filter: blur(18px);
 }

@@ -38,7 +38,7 @@ export function MoviesGrid({
   return (
     <section
       aria-label={texts.gridAria}
-      className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4"
+      className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4 2xl:gap-6"
     >
       {movies.map((movie) => (
         <MovieCard

@@ -74,10 +74,12 @@ Mejoras adicionales aplicadas el 6 de agosto de 2026:
 - estado de carga visual con skeletons para la grilla principal
 - separacion de la data mock en una capa propia para que la app nueva no dependa de `src/legacy-app/data.ts`
 - migracion de la carga inicial de la home para que `app/page.tsx` obtenga los datos desde servidor
+- pulido visual de la home con mas profundidad, badges, contraste y jerarquia
+- refuerzo de accesibilidad visual con estados `focus-visible` para botones, input y modal
 
 Pendiente despues de esta etapa:
 
-- refinar diseno visual para acercarlo o superar la version original
+- revisar visualmente en navegador si el nuevo nivel de pulido ya supera o no la version original
 - revisar accesibilidad fina adicional de teclado y foco
 - evaluar si conviene mantener toda la simulacion de fallos en cliente o redistribuir parte para servidor
 - migrar o retirar por completo la base antigua cuando ya no sea necesaria
@@ -394,6 +396,8 @@ Avance agregado el 6 de agosto de 2026:
 
 - ya existe una primera capa de estados visuales para loading
 - la base visual ya no depende de `styles.css` para la pantalla principal
+- la home recibio un pulido visual con mejor jerarquia, paneles tipo glass, badges y contraste
+- se agregaron estados `focus-visible` para mejorar accesibilidad visual de controles
 
 ### Fase 6. Validacion final
 
@@ -422,6 +426,7 @@ Validaciones acumuladas al 6 de agosto de 2026:
 - compilacion exitosa despues de los ajustes de accesibilidad e interaccion
 - compilacion exitosa despues de desacoplar la data mock del legacy
 - compilacion exitosa despues de mover la carga inicial de la home a servidor
+- compilacion exitosa despues del pulido visual y mejoras de foco accesible
 
 ## Criterios de exito
 
@@ -540,6 +545,14 @@ En el avance mas reciente del jueves 6 de agosto de 2026, tambien quedo mejor se
 - `legacy-app` empieza a quedar aislada como compatibilidad temporal
 - la carga inicial de datos ya no depende de un `useEffect` de arranque en cliente
 
+Y en el bloque mas reciente del jueves 6 de agosto de 2026, la home recibio una mejora visible en:
+
+- jerarquia visual del hero
+- contraste y profundidad de paneles
+- presentacion de filtros y resultados
+- estados de foco para teclado
+- consistencia general de tarjetas, promociones y resenas
+
 ## Resultado esperado
 
 Al terminar, el proyecto debe pasar de una app basada en HTML estatico y renderizado manual a una aplicacion moderna con componentes reutilizables, mejor manejo de estado y una base mucho mas profesional para futuras ampliaciones.
@@ -550,7 +563,7 @@ El siguiente paso practico ya no es crear la base, porque esa parte ya quedo lis
 
 Lo siguiente ahora debe ser:
 
-- refinar el diseno Tailwind de la pagina principal
 - mejorar accesibilidad del modal y navegacion por teclado
 - revisar si la estrategia de fallos simulados debe dividirse entre servidor y cliente de manera mas explicita
 - migrar o desmontar la implementacion heredada de [src/legacy-app](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app)
+- hacer verificacion visual real en navegador para desktop y mobile
