@@ -1,5 +1,5 @@
-import type { PromotionResponseDto } from "../dtos/promotion.DTO.js";
-import type { LocalizedText, Promotion } from "../entities/domain.js";
+import type { PromotionResponseDto } from "../dtos/promotion.DTO";
+import type { LocalizedText, Promotion } from "../entities/domain";
 
 function normalizeLocalizedText(value: LocalizedText): LocalizedText {
   return {

@@ -1,5 +1,5 @@
-import type { ReviewResponseDto } from "../dtos/review.DTO.js";
-import type { LocalizedText, Review } from "../entities/domain.js";
+import type { ReviewResponseDto } from "../dtos/review.DTO";
+import type { LocalizedText, Review } from "../entities/domain";
 
 function normalizeLocalizedText(value: LocalizedText): LocalizedText {
   return {

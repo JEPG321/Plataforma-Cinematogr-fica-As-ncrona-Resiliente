@@ -22,12 +22,52 @@ Base identificada:
 
 - [index.html](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\index.html) contiene la estructura principal de la pagina.
 - [styles.css](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\styles.css) concentra el diseno visual actual.
-- [src/app/app.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\app\app.ts) controla el flujo principal de la aplicacion.
-- [src/app/ui.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\app\ui.ts) encapsula el renderizado y la manipulacion del DOM.
-- [src/app/favorites.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\app\favorites.ts) administra favoritos con `localStorage`.
+- [src/legacy-app/app.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app\app.ts) conserva el flujo principal de la version anterior.
+- [src/legacy-app/ui.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app\ui.ts) conserva el renderizado y la manipulacion del DOM de la version anterior.
+- [src/legacy-app/favorites.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app\favorites.ts) mantiene la logica de favoritos heredada.
 - [src/utils/loadHomeData.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\utils\loadHomeData.ts) orquesta la carga inicial.
 - [src/entities/domain.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\entities\domain.ts) define los tipos de dominio.
 - [src/services](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\services), [src/mappers](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\mappers) y [src/dtos](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\dtos) ya separan datos, transformacion y consumo.
+
+## Avance real al 6 de agosto de 2026
+
+Estado actual:
+
+- La base de `Next.js + React + Tailwind CSS` ya fue instalada y configurada.
+- La aplicacion ya compila correctamente con `npm.cmd run build`.
+- Ya existe una primera pantalla funcional montada sobre `App Router`.
+- La UI principal ya fue migrada a componentes React con Tailwind.
+- La carpeta `src/app/` antigua fue movida a [src/legacy-app](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app) para evitar conflicto con el `app/` de Next.js.
+- Los assets de imagen ya fueron llevados a [public/images](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\public\images).
+
+Archivos nuevos o activados en esta etapa:
+
+- [app/layout.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\layout.tsx)
+- [app/page.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\page.tsx)
+- [app/globals.css](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\globals.css)
+- [postcss.config.mjs](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\postcss.config.mjs)
+- [src/components](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components)
+- [src/lib](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\lib)
+- [tsconfig.legacy.json](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\tsconfig.legacy.json)
+
+Funcionalidad ya migrada a React:
+
+- encabezado principal
+- selector de idioma
+- busqueda
+- filtros por genero
+- favoritos con `localStorage`
+- modal de detalle
+- promociones
+- resenas
+- alertas por fallos controlados
+
+Pendiente despues de esta etapa:
+
+- refinar diseno visual para acercarlo o superar la version original
+- revisar accesibilidad fina de modal y teclado
+- decidir si la carga inicial quedara definitivamente en cliente o si parte de los datos pasara a servidor
+- migrar o retirar por completo la base antigua cuando ya no sea necesaria
 
 ## Diagnostico tecnico
 
@@ -44,6 +84,7 @@ Lo que debe cambiar para la migracion:
 - La estructura vive en `index.html`, lo cual no corresponde al modelo de componentes de React.
 - `styles.css` esta centralizado como hoja global, en lugar de estar organizado por componentes o utilidades.
 - El estado de la interfaz esta distribuido en variables globales dentro de `app.ts`.
+- Parte de la logica heredada fue escrita con imports pensados para `tsc` y tuvo que adaptarse para ser compatible con Next.js.
 
 ## Decision de arquitectura
 
@@ -76,8 +117,8 @@ Estas piezas ya representan una base limpia y portable hacia Next.js.
 Se debe sustituir completamente la logica de:
 
 - `index.html`
-- `src/app/ui.ts`
-- la parte de arranque visual de `src/app/app.ts`
+- `src/legacy-app/ui.ts`
+- la parte de arranque visual de `src/legacy-app/app.ts`
 
 Todo eso debe convertirse a componentes React.
 
@@ -97,11 +138,11 @@ La migracion no debe perder:
 ## Estructura objetivo sugerida
 
 ```txt
+app/
+  layout.tsx
+  page.tsx
+  globals.css
 src/
-  app/
-    layout.tsx
-    page.tsx
-    globals.css
   components/
     hero.tsx
     filters-bar.tsx
@@ -225,9 +266,13 @@ Tareas:
 - inicializar proyecto con `Next.js + TypeScript`
 - instalar y configurar `Tailwind CSS`
 - mover assets a `public/`
-- preparar `src/app/layout.tsx`
-- preparar `src/app/page.tsx`
+- preparar `app/layout.tsx`
+- preparar `app/page.tsx`
 - crear `globals.css`
+
+Estado:
+
+Completada el 6 de agosto de 2026.
 
 ### Fase 2. Migracion del dominio reutilizable
 
@@ -243,6 +288,10 @@ Tareas:
 - mover `services`
 - mover `utils/loadHomeData.ts`
 - ajustar imports a la nueva estructura
+
+Estado:
+
+Completada en su primera version el 6 de agosto de 2026.
 
 ### Fase 3. Migracion de la interfaz
 
@@ -261,6 +310,10 @@ Tareas:
 - construir `MovieModal`
 - construir `ServiceAlerts`
 
+Estado:
+
+Ya iniciada y funcional el 6 de agosto de 2026.
+
 ### Fase 4. Estado e interactividad
 
 Objetivo:
@@ -276,6 +329,10 @@ Tareas:
 - migrar apertura y cierre del modal
 - migrar contador de favoritas
 
+Estado:
+
+Implementada en la primera pantalla migrada.
+
 ### Fase 5. Estilo final con Tailwind
 
 Objetivo:
@@ -288,6 +345,10 @@ Tareas:
 - ajustar responsive en mobile, tablet y desktop
 - mantener jerarquia visual
 - revisar hover, focus y accesibilidad
+
+Estado:
+
+Iniciada, pero aun pendiente de refinamiento visual y accesibilidad fina.
 
 ### Fase 6. Validacion final
 
@@ -305,6 +366,10 @@ Tareas:
 - verificar busqueda
 - verificar promociones y resenas
 - verificar estados de error controlado
+
+Estado:
+
+Validacion tecnica inicial completada con `npm.cmd run build` el 6 de agosto de 2026.
 
 ## Criterios de exito
 
@@ -369,23 +434,47 @@ Dividir claramente por componentes y utilidades.
 6. Ajustar estilos finales.
 7. Probar toda la aplicacion.
 
+## Estado actual por archivos
+
+Base Next.js:
+
+- [app/layout.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\layout.tsx)
+- [app/page.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\page.tsx)
+- [app/globals.css](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\globals.css)
+
+Componentes React ya creados:
+
+- [src/components/home-experience.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\home-experience.tsx)
+- [src/components/hero.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\hero.tsx)
+- [src/components/filters-bar.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\filters-bar.tsx)
+- [src/components/movies-grid.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\movies-grid.tsx)
+- [src/components/movie-card.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\movie-card.tsx)
+- [src/components/movie-modal.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\movie-modal.tsx)
+- [src/components/promotion-panel.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\promotion-panel.tsx)
+- [src/components/reviews-panel.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\reviews-panel.tsx)
+- [src/components/service-alerts.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\service-alerts.tsx)
+
+Utilidades nuevas:
+
+- [src/lib/i18n.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\lib\i18n.ts)
+- [src/lib/favorites.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\lib\favorites.ts)
+- [src/lib/selectors.ts](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\lib\selectors.ts)
+
+Compatibilidad temporal con la version anterior:
+
+- [src/legacy-app](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app) conserva la implementacion original mientras terminamos la migracion.
+
 ## Resultado esperado
 
 Al terminar, el proyecto debe pasar de una app basada en HTML estatico y renderizado manual a una aplicacion moderna con componentes reutilizables, mejor manejo de estado y una base mucho mas profesional para futuras ampliaciones.
 
 ## Siguiente paso recomendado
 
-El siguiente paso practico debe ser crear la base del proyecto con:
+El siguiente paso practico ya no es crear la base, porque esa parte ya quedo lista el 6 de agosto de 2026.
 
-- `Next.js`
-- `React`
-- `Tailwind CSS`
-- `TypeScript`
+Lo siguiente ahora debe ser:
 
-Y luego comenzar la migracion del `home` principal usando primero:
-
-- `page.tsx`
-- `Hero`
-- `FiltersBar`
-- `MoviesGrid`
-- `MovieCard`
+- refinar el diseno Tailwind de la pagina principal
+- mejorar accesibilidad del modal y navegacion por teclado
+- decidir si `loadHomeData.ts` seguira completamente en cliente o si parte pasara a servidor
+- migrar o desmontar la implementacion heredada de [src/legacy-app](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app)

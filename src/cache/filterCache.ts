@@ -1,4 +1,4 @@
-import type { GenreFilterKey, Movie } from "../entities/domain.js";
+import type { GenreFilterKey, Movie } from "../entities/domain";
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => {

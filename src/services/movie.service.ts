@@ -1,5 +1,5 @@
-import type { MovieResponseDto } from "../dtos/movie.DTO.js";
-import { moviesData } from "../app/data.js";
+import type { MovieResponseDto } from "../dtos/movie.DTO";
+import { moviesData } from "../legacy-app/data";
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => {

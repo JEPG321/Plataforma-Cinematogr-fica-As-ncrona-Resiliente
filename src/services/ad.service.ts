@@ -1,5 +1,5 @@
-import type { PromotionResponseDto } from "../dtos/promotion.DTO.js";
-import { adsData } from "../app/data.js";
+import type { PromotionResponseDto } from "../dtos/promotion.DTO";
+import { adsData } from "../legacy-app/data";
 
 const forceFailureKey = "forceAdsFailure";
 

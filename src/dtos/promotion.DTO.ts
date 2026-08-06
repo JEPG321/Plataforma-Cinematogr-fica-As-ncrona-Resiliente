@@ -1,4 +1,4 @@
-import type { LocalizedText } from "../entities/domain.js";
+import type { LocalizedText } from "../entities/domain";
 
 export interface PromotionResponseDto {
   id: number;

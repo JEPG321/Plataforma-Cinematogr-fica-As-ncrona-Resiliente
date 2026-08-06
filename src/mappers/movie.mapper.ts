@@ -1,5 +1,5 @@
-import type { MovieResponseDto } from "../dtos/movie.DTO.js";
-import type { GenreKey, LocalizedText, Movie } from "../entities/domain.js";
+import type { MovieResponseDto } from "../dtos/movie.DTO";
+import type { GenreKey, LocalizedText, Movie } from "../entities/domain";
 
 const genreKeys: GenreKey[] = [
   "science_fiction",
