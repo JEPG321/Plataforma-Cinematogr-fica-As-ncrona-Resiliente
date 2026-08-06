@@ -14,6 +14,10 @@ function shouldFailRandomly(): boolean {
 }
 
 function shouldForceFailure(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
   return sessionStorage.getItem(forceFailureKey) === "true";
 }
 

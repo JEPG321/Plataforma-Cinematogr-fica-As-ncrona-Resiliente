@@ -9,7 +9,6 @@ import type {
   Movie,
   ServiceAlert
 } from "../entities/domain";
-import { loadHomeData } from "../utils/loadHomeData";
 import { FiltersBar } from "./filters-bar";
 import { Hero } from "./hero";
 import { MovieModal } from "./movie-modal";
@@ -23,11 +22,41 @@ import { getGenreOptions, getVisibleMovies } from "../lib/selectors";
 
 const movieFilterCache = createMovieFilterCache();
 
-export function HomeExperience() {
-  const [allMovies, setAllMovies] = useState<Movie[]>([]);
-  const [genreFilteredMovies, setGenreFilteredMovies] = useState<Movie[]>([]);
-  const [reviews, setReviews] = useState<HomeData["reviews"]>([]);
-  const [promotion, setPromotion] = useState<HomeData["promotion"]>(null);
+interface HomeExperienceProps {
+  initialHomeData: HomeData | null;
+  initialLoadFailed: boolean;
+}
+
+function getInitialSecondaryAlertKeys(
+  homeData: HomeData | null
+): Array<"reviewsFallback" | "adsFallback"> {
+  if (!homeData) {
+    return [];
+  }
+
+  const nextAlerts: Array<"reviewsFallback" | "adsFallback"> = [];
+
+  if (homeData.reviewsUnavailable) {
+    nextAlerts.push("reviewsFallback");
+  }
+
+  if (homeData.adsUnavailable) {
+    nextAlerts.push("adsFallback");
+  }
+
+  return nextAlerts;
+}
+
+export function HomeExperience({
+  initialHomeData,
+  initialLoadFailed
+}: HomeExperienceProps) {
+  const [allMovies] = useState<Movie[]>(initialHomeData?.movies ?? []);
+  const [genreFilteredMovies, setGenreFilteredMovies] = useState<Movie[]>(
+    initialHomeData?.movies ?? []
+  );
+  const [reviews] = useState<HomeData["reviews"]>(initialHomeData?.reviews ?? []);
+  const [promotion] = useState<HomeData["promotion"]>(initialHomeData?.promotion ?? null);
   const [favorites, setFavorites] = useState<number[]>([]);
   const [currentLang, setCurrentLang] = useState<LanguageCode>("es");
   const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
@@ -35,11 +64,9 @@ export function HomeExperience() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isFilteringGenre, setIsFilteringGenre] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [mainLoadFailed, setMainLoadFailed] = useState(false);
-  const [secondaryAlertKeys, setSecondaryAlertKeys] = useState<
-    Array<"reviewsFallback" | "adsFallback">
-  >([]);
+  const [secondaryAlertKeys] = useState<Array<"reviewsFallback" | "adsFallback">>(
+    getInitialSecondaryAlertKeys(initialHomeData)
+  );
 
   const texts = i18n[currentLang];
 
@@ -50,59 +77,6 @@ export function HomeExperience() {
 
   useEffect(() => {
     setFavorites(getFavorites());
-  }, []);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function startApp() {
-      try {
-        const homeData = await loadHomeData();
-
-        if (!isMounted) {
-          return;
-        }
-
-        const nextAlerts: Array<"reviewsFallback" | "adsFallback"> = [];
-
-        if (homeData.reviewsUnavailable) {
-          nextAlerts.push("reviewsFallback");
-        }
-
-        if (homeData.adsUnavailable) {
-          nextAlerts.push("adsFallback");
-        }
-
-        setAllMovies(homeData.movies);
-        setGenreFilteredMovies(homeData.movies);
-        setReviews(homeData.reviews);
-        setPromotion(homeData.promotion);
-        setSecondaryAlertKeys(nextAlerts);
-      } catch (error) {
-        console.error("Main catalog load failed:", error);
-
-        if (!isMounted) {
-          return;
-        }
-
-        setMainLoadFailed(true);
-        setAllMovies([]);
-        setGenreFilteredMovies([]);
-        setReviews([]);
-        setPromotion(null);
-        setSecondaryAlertKeys([]);
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    void startApp();
-
-    return () => {
-      isMounted = false;
-    };
   }, []);
 
   const genreOptions = useMemo(
@@ -161,15 +135,13 @@ export function HomeExperience() {
     setFavorites(nextFavorites);
   }
 
-  const resultsText = isLoading
-    ? "Cargando peliculas..."
-    : isFilteringGenre
-      ? texts.filtering
-      : `${texts.showing} ${visibleMovies.length} ${
-          showOnlyFavorites
-            ? texts.favoriteWord(visibleMovies.length)
-            : texts.movieWord(visibleMovies.length)
-        }`;
+  const resultsText = isFilteringGenre
+    ? texts.filtering
+    : `${texts.showing} ${visibleMovies.length} ${
+        showOnlyFavorites
+          ? texts.favoriteWord(visibleMovies.length)
+          : texts.movieWord(visibleMovies.length)
+      }`;
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
@@ -201,36 +173,16 @@ export function HomeExperience() {
       <section className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-orange-200">
-            {mainLoadFailed ? texts.loadErrorTag : texts.sectionKicker}
+            {initialLoadFailed ? texts.loadErrorTag : texts.sectionKicker}
           </p>
           <h2 className="mt-2 text-3xl font-bold text-white">
-            {mainLoadFailed ? texts.loadErrorTitle : texts.sectionTitle}
+            {initialLoadFailed ? texts.loadErrorTitle : texts.sectionTitle}
           </h2>
         </div>
         <p className="text-sm font-medium text-slate-300">{resultsText}</p>
       </section>
 
-      {isLoading ? (
-        <section
-          aria-label={texts.gridAria}
-          className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4"
-        >
-          {Array.from({ length: 8 }).map((_, index) => (
-            <article
-              key={`loading-card-${index}`}
-              className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5"
-            >
-              <div className="aspect-[4/5] animate-pulse bg-slate-800/70" />
-              <div className="space-y-3 p-5">
-                <div className="h-3 w-24 animate-pulse rounded-full bg-slate-700/80" />
-                <div className="h-6 w-3/4 animate-pulse rounded-full bg-slate-700/80" />
-                <div className="h-4 w-full animate-pulse rounded-full bg-slate-800/80" />
-                <div className="h-4 w-5/6 animate-pulse rounded-full bg-slate-800/80" />
-              </div>
-            </article>
-          ))}
-        </section>
-      ) : mainLoadFailed ? (
+      {initialLoadFailed ? (
         <MoviesGrid
           movies={[]}
           favorites={favorites}

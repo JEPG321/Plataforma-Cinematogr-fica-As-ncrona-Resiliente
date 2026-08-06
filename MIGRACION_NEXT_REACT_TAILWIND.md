@@ -73,12 +73,13 @@ Mejoras adicionales aplicadas el 6 de agosto de 2026:
 - bloqueo de scroll del `body` mientras el modal esta abierto
 - estado de carga visual con skeletons para la grilla principal
 - separacion de la data mock en una capa propia para que la app nueva no dependa de `src/legacy-app/data.ts`
+- migracion de la carga inicial de la home para que `app/page.tsx` obtenga los datos desde servidor
 
 Pendiente despues de esta etapa:
 
 - refinar diseno visual para acercarlo o superar la version original
 - revisar accesibilidad fina adicional de teclado y foco
-- decidir si la carga inicial quedara definitivamente en cliente o si parte de los datos pasara a servidor
+- evaluar si conviene mantener toda la simulacion de fallos en cliente o redistribuir parte para servidor
 - migrar o retirar por completo la base antigua cuando ya no sea necesaria
 - decidir si `src/legacy-app/data.ts` se elimina mas adelante o queda solo como reexport temporal
 
@@ -239,6 +240,12 @@ Modelo recomendado:
 
 Esto permite aprovechar mejor Next.js sin complicar la migracion.
 
+Estado real al 6 de agosto de 2026:
+
+- este modelo ya fue aplicado en la pagina principal
+- [app/page.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\page.tsx) ya carga la data inicial desde servidor
+- [src/components/home-experience.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\home-experience.tsx) ya queda enfocada en interactividad cliente
+
 ## Estrategia de Tailwind CSS
 
 Tailwind debe usarse como base principal del nuevo estilo.
@@ -364,6 +371,7 @@ Avance agregado el 6 de agosto de 2026:
 - cierre por backdrop
 - bloqueo de scroll mientras el modal esta abierto
 - carga visual inicial con skeletons
+- la interactividad cliente ya recibe datos iniciales hidratados desde servidor
 
 ### Fase 5. Estilo final con Tailwind
 
@@ -413,6 +421,7 @@ Validaciones acumuladas al 6 de agosto de 2026:
 - compilacion exitosa despues del bootstrap de Next.js
 - compilacion exitosa despues de los ajustes de accesibilidad e interaccion
 - compilacion exitosa despues de desacoplar la data mock del legacy
+- compilacion exitosa despues de mover la carga inicial de la home a servidor
 
 ## Criterios de exito
 
@@ -485,6 +494,11 @@ Base Next.js:
 - [app/page.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\page.tsx)
 - [app/globals.css](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\globals.css)
 
+Carga inicial alineada con Next:
+
+- la ruta principal `/` ya corre como pagina dinamica renderizada en servidor bajo `App Router`
+- [app/page.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\app\page.tsx) resuelve `loadHomeData()` antes de montar la experiencia cliente
+
 Componentes React ya creados:
 
 - [src/components/home-experience.tsx](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\components\home-experience.tsx)
@@ -524,6 +538,7 @@ En el avance mas reciente del jueves 6 de agosto de 2026, tambien quedo mejor se
 
 - la app nueva consume datos mock desde una carpeta propia
 - `legacy-app` empieza a quedar aislada como compatibilidad temporal
+- la carga inicial de datos ya no depende de un `useEffect` de arranque en cliente
 
 ## Resultado esperado
 
@@ -537,5 +552,5 @@ Lo siguiente ahora debe ser:
 
 - refinar el diseno Tailwind de la pagina principal
 - mejorar accesibilidad del modal y navegacion por teclado
-- decidir si `loadHomeData.ts` seguira completamente en cliente o si parte pasara a servidor
+- revisar si la estrategia de fallos simulados debe dividirse entre servidor y cliente de manera mas explicita
 - migrar o desmontar la implementacion heredada de [src/legacy-app](C:\Users\josep\OneDrive\Documentos\Laboratorio 2\src\legacy-app)
